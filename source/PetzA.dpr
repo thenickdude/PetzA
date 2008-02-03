@@ -3,11 +3,11 @@ library petza;
 
 
 uses
+  madExcept,
+  madLinkDisAsm,
   madListHardware,
   madListProcesses,
   madListModules,
-  madExcept,
-  madLinkDisAsm,
   SysUtils,
   petzaunit in 'petzaunit.pas',
   bndpetz in 'bndpetz.pas',
