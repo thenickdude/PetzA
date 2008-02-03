@@ -1,7 +1,5 @@
 library petza;
 
-
-
 uses
   madExcept,
   madLinkDisAsm,

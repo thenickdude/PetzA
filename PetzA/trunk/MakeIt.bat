@@ -1,2 +1,2 @@
-make
+d:\cygwin\bin\make
 pause
