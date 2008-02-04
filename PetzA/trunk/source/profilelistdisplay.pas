@@ -82,9 +82,10 @@ end;
 
 function tprofilelistdisplay.MaxScroll: integer;
 begin
+     //ScrollBar throws an exception if max<pagesize
   if Assigned(fmanager) then begin
-    result := max(fmanager.count * fitemheight, 0);
-  end else result := 0;
+    result := max(fmanager.count * fitemheight, fscrollbar.pagesize);
+  end else result := fscrollbar.pagesize;
 end;
 
 procedure TProfileListDisplay.setscroll(value: integer);
@@ -202,7 +203,7 @@ begin
     buffer.Clear(clwhite32) else
     buffer.Clear(gray32(240));
 
-  fscrollbar.Max := MaxScroll;
+  fscrollbar.Max :=MaxScroll;
 
   if (fscrollbar.max > 0) xor fscrollbar.Visible then begin //need to change state
     fscrollbar.visible := (fscrollbar.max > 0);
@@ -370,6 +371,7 @@ begin
   fscrollbar := TScrollBar.Create(self);
   fscrollbar.Kind := sbVertical;
   fscrollbar.top := 0;
+  fscrollbar.min:=0;
   fscrollbar.LargeChange := 15;
   fscrollbar.Smallchange := 5;
   fscrollbar.parent := self;

@@ -6,7 +6,7 @@ object frmProfileEdit: TfrmProfileEdit
   ClientHeight = 138
   ClientWidth = 414
   Color = clBtnFace
-  Constraints.MaxHeight = 165
+  Constraints.MaxHeight = 170
   Constraints.MinHeight = 165
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,6 +19,9 @@ object frmProfileEdit: TfrmProfileEdit
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  DesignSize = (
+    414
+    138)
   PixelsPerInch = 96
   TextHeight = 13
   object lblTitle: TLabel
@@ -90,7 +93,7 @@ object frmProfileEdit: TfrmProfileEdit
     Cursor = crHandPoint
     Bitmap.ResamplerClassName = 'TNearestResampler'
     BitmapAlign = baTopLeft
-    Scale = 1
+    Scale = 1.000000000000000000
     ScaleMode = smNormal
     TabOrder = 4
     OnClick = imgIconClick

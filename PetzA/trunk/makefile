@@ -15,10 +15,11 @@ build/PetzAHelp.chm : helpndoc/PetzAHelp.hnd
 	helpndoc "$(realpath helpndoc\PetzAHelp.hnd)" /c /sxc /oxc="$@"
 
 build/verify.dll : source/Verify.dpr
-	@cd source && dcc32 -Q -E../build -B Verify.dpr
+	cd source && dcc32 -Q -E../build -B Verify.dpr
 
 build/PetzA.toy : source/petzaunit.pas source/petza.dpr source/petza.dproj
-	@cd source && dcc32 -Q -E../build -B -U"$(sourcepath)" -I"$(sourcepath)" PetzA.dpr
+	cd source && dcc32 -Q -E../build -B -U"$(sourcepath)" -I"$(sourcepath)" PetzA.dpr
+	/cygdrive/d/Program\ Files/madCollection/madExcept/Tools/madExceptPatch.exe build/petza.toy source/petza.mes
 
 clean :
 	rm build/*

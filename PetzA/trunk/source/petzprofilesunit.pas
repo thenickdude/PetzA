@@ -2,7 +2,7 @@ unit petzprofilesunit;
 
 interface
 
-uses sysutils, Windows, gr32, contnrs, classes, filectrl, ECXMLParser, dimime,
+uses sysutils, Windows, gr32, contnrs, classes, ECXMLParser, dimime,
   forms, controls, math, framediconunit, bndpetz;
 
 const PETZA_PROFILES = 'PetzAProfiles';

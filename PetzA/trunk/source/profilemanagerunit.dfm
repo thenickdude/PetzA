@@ -1,7 +1,6 @@
 object frmProfileManager: TfrmProfileManager
   Left = 66
   Top = 284
-  AutoScroll = False
   Caption = 'Profiles'
   ClientHeight = 307
   ClientWidth = 494
@@ -15,6 +14,9 @@ object frmProfileManager: TfrmProfileManager
   Position = poScreenCenter
   OnCreate = FormCreate
   OnShow = FormShow
+  DesignSize = (
+    494
+    307)
   PixelsPerInch = 96
   TextHeight = 13
   object chkEnabled: TCheckBox
@@ -34,6 +36,9 @@ object frmProfileManager: TfrmProfileManager
     Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = 'Profiles'
     TabOrder = 1
+    DesignSize = (
+      475
+      237)
     object bvl1: TBevel
       Left = 398
       Top = 196

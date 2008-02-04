@@ -62,7 +62,8 @@ v2.2.3 - Missing line of code in set number of children totally broke it. Fixed 
 v2.2.4 - Stop users from changing age to <6, prevents crash. On Petz, not Babyz.
          Babyz diaper "Never gets dirty" option. Every time Babyz tries to set diaper status,
          it sets it to "Clean".
-v2.2.5 - Remove resolution check (Petz 5 only) to run on smaller screens like laptops
+v2.2.5 - Remove resolution check (Petz 5 only) to run on smaller screens like laptops.
+         Couple of small bugfixes for profile chooser
 
          PENDING::Fix diaper problems
          PENDING::Add an "All" menu to the pets submenu. Send all to door. Global brainsliders.
@@ -86,7 +87,7 @@ uses sysutils, windows, classes, messages, contnrs, mymenuunit, dllpatchunit, bn
   petzclassesunit, registry, sliderbrainunit, forms, petzcommon, CommDlg, graphics,
   aboutunit, dialogs, frmmateunit, trimfamilytreeunit, math, madexcept,
   profilemanagerunit, petzprofilesunit, actnlist, menus, madkernel,
-  pngimage, SCommon, SPatching;
+  pngimage, SCommon, SPatching, HTMLHelpViewer2005;
 
 const petzakeyname = '\Software\Sherlock Software\PetzA';
 
@@ -155,7 +156,7 @@ procedure dolog(const message: string);
 implementation
 
 uses setchildrenunit, mymessageunit, debugunit, gamespeedunit, typinfo, frmsettingsunit,
-  nakedbitmaploader, gifimage;
+  nakedbitmaploader, gifimage, helpunit;
 
 procedure dolog(const message: string);
 const eol: Word = $0A0D;
@@ -684,10 +685,8 @@ begin
   reg := TRegistry.Create;
   try
     reg.rootkey := HKEY_CURRENT_USER;
-    if reg.OpenKey(petzakeyname, false) then begin
-      if reg.ValueExists('Helpfile') then
+    if reg.OpenKey(petzakeyname, false) and reg.ValueExists('Helpfile') then
         result := reg.ReadString('Helpfile');
-    end;
   finally
     reg.free;
   end;
@@ -1738,7 +1737,7 @@ end;
 
 procedure openhelp(sender: TMyMenuItem);
 begin
-  application.HelpCommand(HELP_CONTENTS, 0);
+Application.HelpCommand(HELP_CONTEXT,HELP_Welcome);
 end;
 
 procedure petz2windowcreate(injectpoint: pointer; eax, ecx, edx, esi: longword);

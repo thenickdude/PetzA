@@ -45,6 +45,7 @@ begin
 
   lstProfiles.manager := profilemanager;
   chkEnabled.Checked := profilemanager.useprofiles;
+  chkEnabledClick(self);
 end;
 
 procedure TfrmProfileManager.chkEnabledClick(Sender: TObject);
@@ -54,6 +55,7 @@ begin
   lstProfiles.Enabled := chkEnabled.checked;
   Panel1.Enabled := chkEnabled.checked;
   btnAddProfile.enabled := chkEnabled.checked;
+  btnEdit.enabled := chkEnabled.checked;
 end;
 
 procedure TfrmProfileManager.FormShow(Sender: TObject);

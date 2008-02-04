@@ -37,7 +37,6 @@ uses
   nomatchunit in 'nomatchunit.pas' {frmNoMatch},
   profilemanagerunit in 'profilemanagerunit.pas' {frmProfileManager},
   pickprofileunit in 'pickprofileunit.pas' {frmPickProfile},
-  profilelistdisplay in 'profilelistdisplay.pas',
   petzprofilesunit in 'petzprofilesunit.pas',
   profileeditunit in 'profileeditunit.pas' {frmProfileEdit},
   frmpickiconunit in 'frmpickiconunit.pas' {frmPickIcon},

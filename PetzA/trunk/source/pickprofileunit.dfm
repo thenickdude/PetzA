@@ -1,9 +1,9 @@
 object frmPickProfile: TfrmPickProfile
   Left = 471
   Top = 289
-  Width = 548
-  Height = 304
   Caption = 'Choose profile...'
+  ClientHeight = 270
+  ClientWidth = 540
   Color = clBtnFace
   Constraints.MinHeight = 200
   Constraints.MinWidth = 250
@@ -15,6 +15,9 @@ object frmPickProfile: TfrmPickProfile
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  DesignSize = (
+    540
+    270)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl1: TLabel
