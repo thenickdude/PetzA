@@ -84,7 +84,7 @@ unit petzaunit;
 interface
 
 uses sysutils, windows, classes, messages, contnrs, mymenuunit, dllpatchunit, bndpetz,
-  petzclassesunit, registry, sliderbrainunit, forms, petzcommon, CommDlg, graphics,
+  petzclassesunit, registry, sliderbrainunit, forms, petzcommon1, CommDlg, graphics,
   aboutunit, dialogs, frmmateunit, trimfamilytreeunit, math, madexcept,
   profilemanagerunit, petzprofilesunit, actnlist, menus, madkernel,
   pngimage, SCommon, SPatching, HTMLHelpViewer2005;

@@ -183,7 +183,7 @@ type TRPetzApp = record
 var petzclassesman: tpetzclassesman;
 
 implementation
-uses dllformunit, petzcommon, petzaunit;
+uses dllformunit, petzcommon1, petzaunit;
 
 function tpetzpetzapp.getpetmodule: tpetzpetmodule;
 begin

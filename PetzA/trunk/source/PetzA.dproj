@@ -78,7 +78,7 @@
     </DCCReference>
     <DCCReference Include="petzaunit.pas" />
     <DCCReference Include="petzclassesunit.pas" />
-    <DCCReference Include="petzcommon.pas" />
+    <DCCReference Include="petzcommon1.pas" />
     <DCCReference Include="petzprofilesunit.pas" />
     <DCCReference Include="pickprofileunit.pas">
       <Form>frmPickProfile</Form>

@@ -27,7 +27,7 @@ uses
   aboutunit in 'aboutunit.pas' {frmAbout},
   mymenuunit in 'mymenuunit.pas',
   sliderbrainunit in 'sliderbrainunit.pas' {frmSliderBrain},
-  petzcommon in 'petzcommon.pas',
+  petzcommon1 in 'petzcommon1.pas',
   frmmateunit in 'frmmateunit.pas' {frmMate},
   mymessageunit in 'mymessageunit.pas' {frmMyMessage},
   setchildrenunit in 'setchildrenunit.pas' {frmSetnumchildren},

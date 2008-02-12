@@ -29,7 +29,7 @@ type
   end;
 
 implementation
-uses petzclassesunit, dllpatchunit, bndpetz, petzcommon;
+uses petzclassesunit, dllpatchunit, bndpetz, petzcommon1;
 {$R *.DFM}
 
 procedure TfrmAbout.Button1Click(Sender: TObject);

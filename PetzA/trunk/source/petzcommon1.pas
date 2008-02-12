@@ -1,4 +1,4 @@
-unit petzcommon;
+unit petzcommon1;
 
 interface
 uses sysutils, messages, windows, dialogs;
