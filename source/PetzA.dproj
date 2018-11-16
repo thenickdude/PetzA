@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{d099a773-5c0a-4166-86c7-9e35308df749}</ProjectGuid>
+    <MainSource>PetzA.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>c:\petz\petz 5\resource\toyz\PetzA.toy</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_Alignment>1</DCC_Alignment>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_WriteableConstants>True</DCC_WriteableConstants>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
+    <DCC_RangeChecking>True</DCC_RangeChecking>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_MapFile>3</DCC_MapFile>
+    <DCC_ExeOutput>C:\Documents and Settings\Nicholas Sherlock\Desktop\petz\petza\main</DCC_ExeOutput>
+    <DCC_Define>madExcept;RELEASE</DCC_Define>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_WriteableConstants>True</DCC_WriteableConstants>
+    <DCC_IntegerOverflowCheck>True</DCC_IntegerOverflowCheck>
+    <DCC_RangeChecking>True</DCC_RangeChecking>
+    <DCC_MapFile>3</DCC_MapFile>
+    <DCC_ExeOutput>c:\petz\petz 5\resource\toyz</DCC_ExeOutput>
+    <DCC_Define>DEBUG;madExcept</DCC_Define>
+    <DCC_UnitSearchPath>C:\Program Files\Borland\Delphi5\Projects\cipher\Dec\Source;C:\Program Files\Borland\Delphi5\Projects\versioninfo;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\graphics32;C:\Program Files\Borland\Delphi5\Projects\dimime\Source;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\XML Parser;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\g32interface;C:\Program Files\Borland\Delphi5\Projects\sherlocksoftware;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\gif;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\pngobject;C:\Program Files\Borland\Delphi5\Projects\stubby;D:\Program Files\madCollection\madExcept\dexter</DCC_UnitSearchPath>
+    <DCC_ResourcePath>C:\Program Files\Borland\Delphi5\Projects\cipher\Dec\Source;C:\Program Files\Borland\Delphi5\Projects\versioninfo;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\graphics32;C:\Program Files\Borland\Delphi5\Projects\dimime\Source;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\XML Parser;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\g32interface;C:\Program Files\Borland\Delphi5\Projects\sherlocksoftware;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\gif;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\pngobject;C:\Program Files\Borland\Delphi5\Projects\stubby;D:\Program Files\madCollection\madExcept\dexter</DCC_ResourcePath>
+    <DCC_ObjPath>C:\Program Files\Borland\Delphi5\Projects\cipher\Dec\Source;C:\Program Files\Borland\Delphi5\Projects\versioninfo;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\graphics32;C:\Program Files\Borland\Delphi5\Projects\dimime\Source;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\XML Parser;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\g32interface;C:\Program Files\Borland\Delphi5\Projects\sherlocksoftware;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\gif;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\pngobject;C:\Program Files\Borland\Delphi5\Projects\stubby;D:\Program Files\madCollection\madExcept\dexter</DCC_ObjPath>
+    <DCC_IncludePath>C:\Program Files\Borland\Delphi5\Projects\cipher\Dec\Source;C:\Program Files\Borland\Delphi5\Projects\versioninfo;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\graphics32;C:\Program Files\Borland\Delphi5\Projects\dimime\Source;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\XML Parser;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\g32interface;C:\Program Files\Borland\Delphi5\Projects\sherlocksoftware;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\gif;D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects\pngobject;C:\Program Files\Borland\Delphi5\Projects\stubby;D:\Program Files\madCollection\madExcept\dexter</DCC_IncludePath>
+    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="HostApplication">c:\petz\petz 5\petz 5.exe</Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">2</VersionInfo><VersionInfo Name="MinorVer">2</VersionInfo><VersionInfo Name="Release">5</VersionInfo><VersionInfo Name="Build">244</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">5129</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Sherlock Software</VersionInfoKeys><VersionInfoKeys Name="FileDescription">PetzA</VersionInfoKeys><VersionInfoKeys Name="FileVersion">2.2.5.244</VersionInfoKeys><VersionInfoKeys Name="InternalName">PetzA</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">Copyright (C) Sherlock Software 2008</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">petza.toy</VersionInfoKeys><VersionInfoKeys Name="ProductName">PetzA</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">PetzA.dpr</Source></Source></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="PetzA.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="aboutunit.pas">
+      <Form>frmAbout</Form>
+    </DCCReference>
+    <DCCReference Include="bndpetz.pas" />
+    <DCCReference Include="debugunit.pas">
+      <Form>frmDebug</Form>
+    </DCCReference>
+    <DCCReference Include="dllpatchunit.pas" />
+    <DCCReference Include="framediconunit.pas" />
+    <DCCReference Include="frmmateunit.pas">
+      <Form>frmMate</Form>
+    </DCCReference>
+    <DCCReference Include="frmpickiconunit.pas">
+      <Form>frmPickIcon</Form>
+    </DCCReference>
+    <DCCReference Include="frmsettingsunit.pas">
+      <Form>frmSettings</Form>
+    </DCCReference>
+    <DCCReference Include="gamespeedunit.pas">
+      <Form>frmGameSpeed</Form>
+    </DCCReference>
+    <DCCReference Include="mymenuunit.pas" />
+    <DCCReference Include="mymessageunit.pas">
+      <Form>frmMyMessage</Form>
+    </DCCReference>
+    <DCCReference Include="nakedbitmaploader.pas" />
+    <DCCReference Include="nomatchunit.pas">
+      <Form>frmNoMatch</Form>
+    </DCCReference>
+    <DCCReference Include="petzaunit.pas" />
+    <DCCReference Include="petzclassesunit.pas" />
+    <DCCReference Include="petzcommon1.pas" />
+    <DCCReference Include="petzprofilesunit.pas" />
+    <DCCReference Include="pickprofileunit.pas">
+      <Form>frmPickProfile</Form>
+    </DCCReference>
+    <DCCReference Include="profileeditunit.pas">
+      <Form>frmProfileEdit</Form>
+    </DCCReference>
+    <DCCReference Include="profilemanagerunit.pas">
+      <Form>frmProfileManager</Form>
+    </DCCReference>
+    <DCCReference Include="setchildrenunit.pas">
+      <Form>frmSetnumchildren</Form>
+    </DCCReference>
+    <DCCReference Include="sliderbrainunit.pas">
+      <Form>frmSliderBrain</Form>
+    </DCCReference>
+    <DCCReference Include="trimfamilytreeunit.pas">
+      <Form>frmTrimFamilyTree</Form>
+    </DCCReference>
+    <DCCReference Include="vectorUnit.pas" />
+  </ItemGroup>
+</Project>
