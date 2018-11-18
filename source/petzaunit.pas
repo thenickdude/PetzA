@@ -87,7 +87,7 @@ uses sysutils, windows, classes, messages, contnrs, mymenuunit, dllpatchunit, bn
   petzclassesunit, registry, sliderbrainunit, forms, petzcommon1, CommDlg, graphics,
   aboutunit, dialogs, frmmateunit, trimfamilytreeunit, math, madexcept,
   profilemanagerunit, petzprofilesunit, actnlist, menus, madkernel,
-  pngimage, SCommon, SPatching, HTMLHelpViewer2005;
+  SCommon, SPatching, HtmlHelpViewer;
 
 const petzakeyname = '\Software\Sherlock Software\PetzA';
 
@@ -156,7 +156,10 @@ procedure dolog(const message: string);
 implementation
 
 uses setchildrenunit, mymessageunit, debugunit, gamespeedunit, typinfo, frmsettingsunit,
-  nakedbitmaploader, gifimage, helpunit;
+  nakedbitmaploader, Vcl.Imaging.pngimage, Vcl.Imaging.gifimg, helpunit;
+
+{$WARN SYMBOL_PLATFORM OFF}
+{$WARN UNIT_PLATFORM OFF}
 
 procedure dolog(const message: string);
 const eol: Word = $0A0D;
@@ -430,12 +433,13 @@ begin
 end;
 
 procedure tpetza.savesettings;
-var reg: tregistry;
+var
+  reg: tregistry;
   pre: string;
 begin
   reg := tregistry.create;
   try
-    reg.RootKey := hkey_current_user;
+    reg.RootKey := HKEY_CURRENT_USER;
     if reg.openkey(petzakeyname, true) then begin
       reg.WriteBool('InstantBirth', instantbirth);
       reg.writebool('ShowNameTags', shownametags);
@@ -684,7 +688,7 @@ begin
   result := '';
   reg := TRegistry.Create;
   try
-    reg.rootkey := HKEY_CURRENT_USER;
+    reg.rootkey := HKEY_LOCAL_MACHINE;
     if reg.OpenKey(petzakeyname, false) and reg.ValueExists('Helpfile') then
         result := reg.ReadString('Helpfile');
   finally
@@ -736,7 +740,7 @@ var stream: TMemoryStream;
   p: pointer;
   bitmap: TNakedBitmapLoader;
   gif: tgifimage;
-  png: TPNGObject;
+  png: TPNGImage;
 begin
   try
     stream := tmemorystream.create;
@@ -767,7 +771,7 @@ begin
                 gif.ColorReduction := rmQuantize;
                 gif.Assign(bitmap);
                 bitmap.assign(gif);
-                png := TPNGObject.Create;
+                png := TPNGImage.Create;
                 try
                   png.CompressionLevel := 9;
                   png.Assign(bitmap);
@@ -1183,7 +1187,7 @@ var reg: tregistry;
 begin
   reg := TRegistry.Create;
   try
-    reg.RootKey := HKEY_CURRENT_USER;
+    reg.RootKey := HKEY_LOCAL_MACHINE;
     if reg.OpenKey(petzakeyname, false) then
       if reg.ValueExists('InstallPath') then begin
         result := reg.ReadString('InstallPath');

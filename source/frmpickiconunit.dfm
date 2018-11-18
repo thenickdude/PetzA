@@ -15,6 +15,9 @@ object frmPickIcon: TfrmPickIcon
   Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  DesignSize = (
+    488
+    287)
   PixelsPerInch = 96
   TextHeight = 13
   object icongrid: TItemGrid32
@@ -24,6 +27,7 @@ object frmPickIcon: TfrmPickIcon
     Height = 241
     Anchors = [akLeft, akTop, akRight, akBottom]
     Color = -1
+    SelIndex = -1
     GridLineColor = -1
     DefaultColWidth = 62
     DefaultRowHeight = 62

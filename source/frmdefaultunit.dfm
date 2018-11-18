@@ -1,8 +1,8 @@
 object frmDefault: TfrmDefault
   Left = 460
   Top = 376
-  Width = 320
-  Height = 240
+  ClientHeight = 201
+  ClientWidth = 304
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

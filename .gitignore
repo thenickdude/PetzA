@@ -1,3 +1,14 @@
 /.idea
 *.dcu
+*.exe
 *.~*
+*.identcache
+*.stat
+source/Win32
+/*.iml
+*.local
+build/
+__history/
+__recovery/
+/source/Win32
+*.tvsconfig

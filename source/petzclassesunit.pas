@@ -1,6 +1,7 @@
 unit petzclassesunit;
 
 interface
+
 uses sysutils, windows, graphics, classes, contnrs, dialogs, bndpetz,
   dllpatchunit;
 
@@ -769,7 +770,7 @@ begin
   end;
  {.text:0040604D                 call    ?GetFilenameWOExtension@@YAPADPADPBD@Z ; GetFilenameWOExtension(char *,char const *)}
 
-  h := CreateWindowExA(0, pchar($63ACCC), pchar(removeext(filename)), $2CF0000, 0, 0, $177, $12C, 0, hmenu(classprop(shlglobals, $538)^), hinst(classprop(shlglobals, $518)^), nil);
+  h := CreateWindowExA(0, PAnsiChar($63ACCC), PAnsiChar(AnsiString(removeext(filename))), $2CF0000, 0, 0, $177, $12C, 0, hmenu(classprop(shlglobals, $538)^), hinst(classprop(shlglobals, $518)^), nil);
   plongword(classprop(shlglobals, $544))^ := h;
   plongword(classprop(shlglobals, $540))^ := plongword(classprop(shlglobals, $544))^;
   setwindowlonga(plongword(classprop(shlglobals, $544))^, integer($0FFFFFFEB), $3ACBBCA3);

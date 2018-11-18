@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, registry, mymessageunit, bndpetz, helpunit;
+  StdCtrls, ExtCtrls, registry, mymessageunit, bndpetz, helpunit, UITypes;
 
 type
   TfrmSettings = class(TForm)

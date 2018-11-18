@@ -41,8 +41,8 @@ Source: build\petza.toy; DestDir: {code:GetPetzAInstallDir|9}; Check: CheckPetzA
 Source: build\petza.toy; DestDir: {code:GetPetzAInstallDir|10}; Check: CheckPetzAInstall(10); Flags: ignoreversion
 
 [Registry]
-Root: HKCU; Subkey: Software\Sherlock Software\PetzA; ValueType: string; ValueName: InstallPath; ValueData: {app}; Flags: uninsdeletekey
-Root: HKCU; Subkey: Software\Sherlock Software\PetzA; ValueType: string; ValueName: Helpfile; ValueData: {app}\PetzAHelp.chm; Flags: uninsdeletekey
+Root: HKLM; Subkey: Software\Sherlock Software\PetzA; ValueType: string; ValueName: InstallPath; ValueData: {app}; Flags: uninsdeletekey
+Root: HKLM; Subkey: Software\Sherlock Software\PetzA; ValueType: string; ValueName: Helpfile; ValueData: {app}\PetzAHelp.chm; Flags: uninsdeletekey
 
 [INI]
 Filename: {app}\{#MyAppUrlName}; Section: InternetShortcut; Key: URL; String: {#MyAppURL}
@@ -90,10 +90,10 @@ var
   end;
   willNeedRestart:boolean;
 
-function VerifyPetzExe(path: PChar; var cpetzver: tpetzvername): boolean;
+function VerifyPetzExe(path: string; var cpetzver: tpetzvername): boolean;
   external 'VerifyPetzExe@files:verify.dll stdcall';
 
-function UnpackDLL(filename, dest: pchar): boolean;
+function UnpackDLL(filename, dest: string): boolean;
   external 'UnpackDLL@files:verify.dll stdcall';
 
 function checkpetzainstall(index:integer):boolean;
@@ -202,7 +202,7 @@ begin
     pickupdates.checklistbox.items.clear;
     setarraylength(todownload, 0);
     for t1 := 0 to GetArrayLength(totalpetzexes) - 1 do
-      if not VerifyPetzExe(pchar(totalpetzexes[t1].filename), ver) then begin
+      if not VerifyPetzExe(totalpetzexes[t1].filename, ver) then begin
         if ver = pvUnknown then continue; //something bad happened with checking it
         pickupdates.add(petzvername(ver) + ' (' + totalpetzexes[t1].filename + ')');
         pickupdates.values[pickupdates.checklistbox.items.count - 1] := true;
@@ -331,13 +331,14 @@ begin
   end;
 
   if page<>nil then
-  targetid:=page.id else
-  targetid:=bpage.id;
+    targetid := page.id 
+  else
+    targetid := bpage.id;
 
   Page2 := CreateInputFilePage(targetid,
     'Choose additional Petz versions to install to', 'PetzA will be automatically installed into selected versions',
     'If your copies of Petz were not automatically detected in the previous step, you can select them below. Select ' +
-    'the main exe of your Petz installation (eg C:\Program Files\Ubi Soft\Studio Mythos\Petz 5\Petz 5.exe). You may ' +
+    'the main exe of your Petz installation (eg C:\Program Files (x86)\Ubi Soft\Studio Mythos\Petz 5\Petz 5.exe). You may ' +
     'select up to three installations of Petz');
 
   for t1:=1 to 3 do
@@ -352,15 +353,15 @@ begin
     false, // not radiobuttons
     false); //not a listbox
 
-    itd_init;
-    itd_setoption('UI_Caption','Downloading new Petz versions...');
-    itd_setoption('UI_AllowContinue','1');
-    itd_setoption('UI_FailOrContinueMessage','Sorry, the new Petz .exes could not be downloaded. Check that you are connected to the internet and press retry to try again, press next to continue installation without the downloaded files, or press cancel to abort installation');
+  itd_init;
+  itd_setoption('UI_Caption','Downloading new Petz versions...');
+  itd_setoption('UI_AllowContinue','1');
+  itd_setoption('UI_FailOrContinueMessage','Sorry, the new Petz .exes could not be downloaded. Check that you are connected to the internet and press retry to try again, press next to continue installation without the downloaded files, or press cancel to abort installation');
 
 	itd_downloadafter(wpReady);
 
-    //itd_setoption('ITD_NoCache','1');
-    //itd_setoption('Debug_DownloadDelay','50');
+  // itd_setoption('ITD_NoCache','1');
+  // itd_setoption('Debug_DownloadDelay','50');
 end;
 
 [Run]

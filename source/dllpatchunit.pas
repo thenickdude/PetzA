@@ -1,6 +1,7 @@
 unit dllpatchunit;
 
 interface
+
 uses sysutils, windows, classes, contnrs, dialogs, madexcept;
 
 var patches: tobjectlist;

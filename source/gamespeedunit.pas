@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ComCtrls, StdCtrls, Spin, ExtCtrls;
+  ComCtrls, StdCtrls, ExtCtrls, Vcl.Samples.Spin;
 
 type
   TfrmGameSpeed = class(TForm)

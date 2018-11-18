@@ -20,8 +20,8 @@ object frmMyMessage: TfrmMyMessage
   object lblmain: TLabel
     Left = 8
     Top = 8
-    Width = 41
-    Height = 17
+    Width = 32
+    Height = 13
     Caption = 'lblmain'
   end
   object btnOkay: TButton

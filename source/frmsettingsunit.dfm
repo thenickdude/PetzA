@@ -15,6 +15,9 @@ object frmSettings: TfrmSettings
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  DesignSize = (
+    396
+    183)
   PixelsPerInch = 96
   TextHeight = 13
   object Bevel1: TBevel
@@ -131,7 +134,6 @@ object frmSettings: TfrmSettings
     Width = 145
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 4
     Items.Strings = (
       'Bitmap (Petz Default)'

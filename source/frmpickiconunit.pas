@@ -2,10 +2,14 @@ unit frmpickiconunit;
 
 interface
 
+{$WARN SYMBOL_PLATFORM OFF}
+{$WARN UNIT_PLATFORM OFF}
+
 uses
   Windows, Contnrs, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, GR32_Image, GR32_Blend, DrawGrid32, Registry, FileCtrl, gr32, math,
-  framediconunit, jpeg, GIFImage, pngimage, HCMngr, DECUtil;
+  FramedIcons, Vcl.Imaging.jpeg, VCL.Imaging.GifImg, VCL.Imaging.PNGImage,
+  DECHash, DECFormat, DECUtil;
 
 type
   TfrmPickIcon = class(TForm)
@@ -31,7 +35,9 @@ var
   frmPickIcon: TfrmPickIcon;
 
 implementation
+
 uses petzaunit, petzprofilesunit;
+
 {$R *.DFM}
 
 function TFrmPickIcon.selicon: TBitmap32;
@@ -46,20 +52,17 @@ var t1, t2: integer;
   sums: array of string;
   icon: Tbitmap32;
   found: boolean;
-  hash: THashManager;
+  hash: THash_MD5;
 begin
-
-  hash := THashManager.Create(nil);
+  hash := THash_MD5.Create();
   try
-    hash.Algorithm := 'Message Digest 5';
-
-
     for t1 := icons.Count - 1 downto 0 do begin
       icon := tbitmap32(icons[t1]);
       p := icon.PixelPtr[0, 0];
 
+      hash.Init();
       hash.CalcBuffer(p^, icon.width * icon.height * sizeof(tcolor32));
-      sum := hash.DigestString[fmthex];
+      sum := hash.DigestAsString(TFormat_HEX);
 
    //have we found this icon already..?
       found := false;
@@ -94,7 +97,7 @@ begin
 
   reg := TRegistry.Create;
   try
-    reg.rootkey := HKEY_CURRENT_USER;
+    reg.rootkey := HKEY_LOCAL_MACHINE;
     if reg.OpenKey(petzakeyname, false) then begin
       if reg.ValueExists('InstallPath') then
         path := IncludeTrailingBackslash(reg.ReadString('InstallPath')) + 'Profile Icons';
@@ -110,7 +113,7 @@ begin
       icons.Add(bmp);
     end;
 
-  if (length(path) > 0) and DirectoryExists(path) then begin
+  if (length(path) > 0) and SysUtils.DirectoryExists(path) then begin
 
   //Find filetypes for images that we can open..
   //Take *.bmp;*.jpg;*.gif and turn into *.bmp,*.jpg etc..
@@ -125,12 +128,12 @@ begin
             bmp := tbitmap32.create;
             try
               bmp.loadfromfile(path + '\' + r.Name);
-              bmptrim(bmp, 64, 64); //trim a little..
-            except
-              FreeAndNil(bmp);
-            end; //failed to load a bitmap? No problem, just ignore it!
-            if bmp <> nil then
+              BmpTrim(bmp, 64, 64); //trim a little..
               icons.Add(bmp);
+            except
+              // Failed to load a bitmap? No problem, just ignore it!
+              bmp.free;
+            end;
           until FindNext(r) <> 0;
           FindClose(r);
         end;
@@ -142,7 +145,6 @@ begin
 
   eliminatedups;
   icongrid.ItemCount := icons.count;
-
 end;
 
 procedure TfrmPickIcon.FormDestroy(Sender: TObject);
@@ -170,7 +172,7 @@ begin
       emms;
     end;
   end;
-  drawframedicon(TBitmap32(icons[itemindex]), buffer, cellrect.Left + 6, cellrect.top + 6, true);
+  DrawFramedIcon(TBitmap32(icons[itemindex]), buffer, cellrect.Left + 6, cellrect.top + 6, true);
 end;
 
 procedure TfrmPickIcon.icongridSelectCell(sender: TObject;

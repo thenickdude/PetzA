@@ -2,8 +2,10 @@ unit petzprofilesunit;
 
 interface
 
-uses sysutils, Windows, gr32, contnrs, classes, ECXMLParser, dimime,
-  forms, controls, math, framediconunit, bndpetz;
+uses
+  sysutils, Windows, gr32, contnrs, classes, dimime,
+  forms, controls, math, FramedIcons, bndpetz, Xml.xmldom, Xml.XMLIntf,
+  Xml.XMLDoc;
 
 const PETZA_PROFILES = 'PetzAProfiles';
 
@@ -53,6 +55,9 @@ implementation
 
 uses pickprofileunit, Dialogs;
 
+{$WARN SYMBOL_PLATFORM OFF}
+{$WARN UNIT_PLATFORM OFF}
+
 function TProfileManager.getavailprofilepath(name: string): string;
 const maxnamelen = 20;
 var pos, i: integer;
@@ -62,7 +67,7 @@ begin
 
   pos := 1;
   for i := 1 to length(name) do
-    if not (name[i] in ['\', '/', ':', '*', '?', '"', '<', '>', '|']) then begin
+    if not CharInSet(name[i], ['\', '/', ':', '*', '?', '"', '<', '>', '|']) then begin
       name[pos] := name[i];
       inc(pos);
     end;
@@ -101,22 +106,30 @@ begin
   if icon = nil then
     self.icon.setsize(0, 0) else begin
     Self.icon.assign(icon);
-    bmptrim(self.icon, 64, 64); //trim it down as needed
+    BmpTrim(self.icon, 64, 64); //trim it down as needed
   end;
 end;
 
 procedure TPetzAProfile.loadfromfile(const filename: string);
-var xml: TECXMLParser;
+var
+  xml: IXMLDocument;
   stream: tstringstream;
+  root: IXMLNode;
 begin
-      //let exceptions leak and the parent deal with it
-  xml := TECXMLParser.Create(nil);
-  try
-    xml.LoadFromFile(filename);
-    name := xml.Root.NamedItem['ProfileName'].Text;
-    description := xml.Root.NamedItem['Description'].text;
-    if xml.root.nameditem['Icon'] <> nil then begin
-      stream := TStringStream.create(MimeDecodeString(xml.root.nameditem['Icon'].text));
+  // Let exceptions leak and the parent deal with it
+  xml := TXMLDocument.Create(nil);
+  xml.LoadFromFile(filename);
+
+  root := xml.DocumentElement;
+
+  if assigned(root.ChildNodes.FindNode('ProfileName')) then
+    name := root.ChildNodes.FindNode('ProfileName').Text;
+
+  if assigned(root.ChildNodes.FindNode('Description')) then
+    description := root.ChildNodes.FindNode('Description').Text;
+
+  if assigned(root.ChildNodes.FindNode('Icon')) then begin
+      stream := TStringStream.create(MimeDecodeString(root.ChildNodes.FindNode('Icon').text));
       try
         stream.position := 0;
         try
@@ -127,46 +140,41 @@ begin
       finally
         stream.free;
       end;
-    end;
-  finally
-    xml.free;
-  end;
+   end;
 end;
 
 procedure TPetzAProfile.savetofile(const filename: string);
-var xml: TECXMLParser;
-  node: TXMLItem;
-  stream: tstringstream;
+var
+  xml: IXMLDocument;
+  node: IXMLNode;
+  stream: TStringStream;
+  profileNode: IXMLNode;
 begin
-  xml := TECXMLParser.Create(nil);
-  try
-    xml.root.name := 'Profile';
+  xml := TXMLDocument.Create(nil);
 
-    node := xml.Root.New;
-    node.name := 'ProfileName';
-    node.Text := name;
+  xml.Active := true;
 
-    node := xml.root.New;
-    node.name := 'Description';
-    node.text := description;
+  profileNode := xml.AddChild('Profile');
 
-    if not icon.Empty then begin
-      stream := TStringStream.create('');
-      try
-        icon.SaveToStream(stream);
-        stream.position := 0;
-        node := xml.root.New;
-        node.name := 'Icon';
-        node.text := MimeEncodeString(stream.DataString);
-      finally
-        stream.free;
-      end;
+  node := profileNode.AddChild('ProfileName');
+  node.Text := name;
+
+  node := profileNode.AddChild('Description');
+  node.Text := description;
+
+  if not icon.Empty then begin
+    stream := TStringStream.create('');
+    try
+      icon.SaveToStream(stream);
+      stream.position := 0;
+      node := profileNode.AddChild('Icon');
+      node.Text := MimeEncodeString(stream.DataString);
+    finally
+      stream.free;
     end;
-
-    xml.SaveToFile(filename);
-  finally
-    xml.free;
   end;
+
+  xml.SaveToFile(filename);
 end;
 
 procedure TProfileManager.petzisstarting;

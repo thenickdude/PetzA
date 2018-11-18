@@ -3,10 +3,11 @@ library Verify;
 {Utility DLL for the installer}
 uses
   SysUtils,
-  md5,
   Classes,
   windows,
   bndpetz,
+  DECHash,
+  DECFormat,
   scizipfile;
 
 type
@@ -19,11 +20,24 @@ type
     hash: string;
   end;
 
+function MD5File(const filename:string):string;
+var
+  hash: THash_MD5;
+begin
+  hash := THash_MD5.Create();
+  try
+    hash.CalcFile(filename);
+    result := hash.DigestAsString(TFormat_HEX);
+  finally
+    hash.Free;
+  end;
+end;
+
 function checkhash(cpetzver: tpetzvername; const filename: string): thashrecord;
 var t1: integer;
 begin
   result.matches := false;
-  Result.hash := MD5DigestToStr(MD5File(filename));
+  Result.hash := MD5File(filename);
   for t1 := 0 to high(petzhashes) do
     if (petzhashes[t1].ver = cpetzver) and (petzhashes[t1].hash = result.hash) then begin
       result.matches := true;
@@ -31,14 +45,14 @@ begin
     end;
 end;
 
-function getfiledetails(sFileName: string): tfileidrecord;
+function getfiledetails(const sFileName: string): tfileidrecord;
 var
   ffd: TWin32FindData;
   dft: DWORD;
   lft: TFileTime;
   h: THandle;
 begin
-  h := Windows.FindFirstFile(PChar(sFileName), ffd);
+  h := Windows.FindFirstFile(PWideChar(sFileName), ffd);
   if (INVALID_HANDLE_VALUE <> h) then
   begin
     Windows.FindClose(h);
@@ -69,14 +83,14 @@ var
   tempsize: cardinal;
   p: pointer;
 begin
-  BufferSize := GetFileVersionInfoSize(pchar(filename), nHWnd);
+  BufferSize := GetFileVersionInfoSize(PWideChar(filename), nHWnd);
 
   result := false;
 
   if BufferSize <> 0 then begin {if zero, there is no version info}
     GetMem(Buffer, BufferSize); {allocate buffer memory}
     try
-      if GetFileVersionInfo(PChar(filename), nHWnd, BufferSize, Buffer) then begin
+      if GetFileVersionInfo(PWideChar(filename), nHWnd, BufferSize, Buffer) then begin
             {got version info}
         setlength(temp, 1000);
         p := @temp[1];
@@ -94,22 +108,23 @@ end;
 
 {Unpack the single file in the zip file 'filename', overwriting the file
  'dest'}
-function UnpackDLL(filename, dest: pchar): boolean; stdcall;
-var zip: TZipFile;
+function UnpackDLL(filename, dest: PWideChar): boolean; stdcall;
+var
+  zip: TZipFile;
   t1: integer;
-  s:string;
+  uncompressed: ansistring;
   output:tfilestream;
 begin
   try
     zip := TZipFile.Create;
     try
-      zip.LoadFromFile(filename);
+      zip.LoadFromFile(String(filename));
       for t1 := 0 to zip.Count - 1 do begin
         output:=TFileStream.Create(dest, fmcreate or fmsharedenywrite);
         try
-        s:=zip.Uncompressed[t1];
-        if length(s)>0 then
-         output.write(s[1],length(s));
+        uncompressed := zip.Uncompressed[t1];
+        if length(uncompressed)>0 then
+         output.write(uncompressed[1], length(uncompressed));
         finally
           output.free;
         end;
@@ -123,11 +138,11 @@ begin
   end;
 end;
 
-function VerifyPetzExe(path: PChar; var cpetzver: tpetzvername): boolean; stdcall;
+function VerifyPetzExe(path: PWideChar; var cpetzver: tpetzvername): boolean; stdcall;
 var name: string;
 begin
   try
-    name := uppercase(extractfilename(path));
+    name := uppercase(extractfilename(string(path)));
 
     cpetzver := pvUnknown;
     if name = 'BABYZ.EXE' then begin

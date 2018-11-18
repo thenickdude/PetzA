@@ -2,9 +2,9 @@ unit profilelistdisplay;
 
 interface
 
-uses sysutils, contnrs, windows, Forms, Controls, classes, petzprofilesunit, gr32,
-  GR32_Image, GR32_Blend, graphics, math, stdctrls, messages, gr32_rangebars,
-  framediconunit, GR32_Resamplers;
+uses sysutils, contnrs, windows, Vcl.Forms, Vcl.Controls, classes, petzprofilesunit, gr32,
+  GR32_Image, GR32_Blend, Vcl.graphics, math, Vcl.stdctrls, messages, gr32_rangebars,
+  FramedIcons, GR32_Resamplers;
 
 type
   TItemExecuteEvent = procedure(sender: TObject; index: integer) of object;
@@ -130,8 +130,10 @@ begin
 end;
 
 function renderwordwrap(bitmap: tbitmap32; text: string; left, top, right, bottom: integer; aalevel: integer; color: tcolor32): integer;
-const delimiters: set of char = ['-', ' '];
-var pos, lastspace: integer;
+const
+  delimiters: set of ansichar = ['-', ' '];
+var
+  pos, lastspace: integer;
   y: integer;
 label start;
 begin
@@ -141,7 +143,7 @@ begin
     lastspace := 0;
     pos := 1;
     while (pos <= length(text)) and (bitmap.TextWidth(copy(text, 1, pos)) < right - left) do begin
-      if text[pos] in delimiters then
+      if CharInSet(text[pos], delimiters) then
         lastspace := pos;
       inc(pos);
     end;
@@ -183,7 +185,8 @@ end;
 
 
 procedure tprofilelistdisplay.dopaintbuffer;
-const textleft = 70;
+const
+  textleft = 70;
   textheadingtop = 5;
   textdesctop = 20;
   textright = 20;
@@ -311,7 +314,7 @@ begin
 
       drawshadow := (fselindex = t1) and (enabled);
 
-      drawframedicon(fmanager[t1].icon,buffer,7,itemtop+7,drawshadow);
+      DrawFramedIcon(fmanager[t1].icon,buffer,7,itemtop+7,drawshadow);
     end;
   end;
 

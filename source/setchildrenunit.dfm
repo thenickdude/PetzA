@@ -79,7 +79,6 @@ object frmSetnumchildren: TfrmSetnumchildren
     Width = 121
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
     TabOrder = 0
     Items.Strings = (
       '1'

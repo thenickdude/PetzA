@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E2554D22-186D-465A-B37C-60F8067F79A7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PetzA.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Verify.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\lib\sherlocksoftware\SherlockSoftwareComponents.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PetzA">
+        <MSBuild Projects="PetzA.dproj"/>
+    </Target>
+    <Target Name="PetzA:Clean">
+        <MSBuild Projects="PetzA.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PetzA:Make">
+        <MSBuild Projects="PetzA.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Verify">
+        <MSBuild Projects="Verify.dproj"/>
+    </Target>
+    <Target Name="Verify:Clean">
+        <MSBuild Projects="Verify.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Verify:Make">
+        <MSBuild Projects="Verify.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SherlockSoftwareComponents">
+        <MSBuild Projects="..\lib\sherlocksoftware\SherlockSoftwareComponents.dproj"/>
+    </Target>
+    <Target Name="SherlockSoftwareComponents:Clean">
+        <MSBuild Projects="..\lib\sherlocksoftware\SherlockSoftwareComponents.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SherlockSoftwareComponents:Make">
+        <MSBuild Projects="..\lib\sherlocksoftware\SherlockSoftwareComponents.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PetzA;Verify;SherlockSoftwareComponents"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PetzA:Clean;Verify:Clean;SherlockSoftwareComponents:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PetzA:Make;Verify:Make;SherlockSoftwareComponents:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

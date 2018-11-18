@@ -1,5 +1,5 @@
 unit SciZipFile;
-// Copyright 2005 Patrik Spanel
+// Copyright 2009 Patrik Spanel
 // scilib@sendme.cz
 
 // Written from scratch using InfoZip PKZip file specification application note
@@ -8,7 +8,7 @@ unit SciZipFile;
 
 // uses the Borland out of the box zlib
 
-
+// 2009 Made compatible with Delphi 2009 
 // 2005 Added support for streams (LoadFromStream(const ZipFileStream: TStream),SaveToStream(...)) 
 
 // Nick Naimo <nick@naimo.com> added support for folders on 6/29/2004 
@@ -16,92 +16,91 @@ unit SciZipFile;
 
 interface
 
-uses SysUtils, Classes, zlib, Windows;
+uses SysUtils, Classes, Types, zlib, Windows;
 
 type
 
   TCommonFileHeader = packed record
-    VersionNeededToExtract: WORD; //       2 bytes
-    GeneralPurposeBitFlag: WORD; //        2 bytes
-    CompressionMethod: WORD; //              2 bytes
+    VersionNeededToExtract: word; //       2 bytes
+    GeneralPurposeBitFlag: word; //        2 bytes
+    CompressionMethod: word; //              2 bytes
     LastModFileTimeDate: DWORD; //             4 bytes
     Crc32: DWORD; //                          4 bytes
     CompressedSize: DWORD; //                 4 bytes
     UncompressedSize: DWORD; //               4 bytes
-    FilenameLength: WORD; //                 2 bytes
-    ExtraFieldLength: WORD; //              2 bytes
+    FilenameLength: word; //                 2 bytes
+    ExtraFieldLength: word; //              2 bytes
   end;
 
   TLocalFile = packed record
     LocalFileHeaderSignature: DWORD; //     4 bytes  (0x04034b50)
-    CommonFileHeader: TCommonFileHeader; //
-    filename: AnsiString; //variable size
-    extrafield: AnsiString; //variable size
-    CompressedData: AnsiString; //variable size
+    CommonFileHeader: TCommonFileHeader;
+    filename:   ansistring;     //variable size
+    extrafield: ansistring;     //variable size
+    CompressedData: ansistring; //variable size
   end;
 
   TFileHeader = packed record
     CentralFileHeaderSignature: DWORD; //   4 bytes  (0x02014b50)
-    VersionMadeBy: WORD; //                 2 bytes
-    CommonFileHeader: TCommonFileHeader; //
-    FileCommentLength: WORD; //             2 bytes
-    DiskNumberStart: WORD; //               2 bytes
-    InternalFileAttributes: WORD; //        2 bytes
+    VersionMadeBy: word; //                 2 bytes
+    CommonFileHeader: TCommonFileHeader;
+    FileCommentLength: word;      //             2 bytes
+    DiskNumberStart: word;        //               2 bytes
+    InternalFileAttributes: word; //        2 bytes
     ExternalFileAttributes: DWORD; //        4 bytes
     RelativeOffsetOfLocalHeader: DWORD; // 4 bytes
-    filename: AnsiString; //variable size
-    extrafield: AnsiString; //variable size
-    fileComment: AnsiString; //variable size
+    filename:    ansistring;      //variable size
+    extrafield:  ansistring;      //variable size
+    fileComment: ansistring;      //variable size
   end;
 
   TEndOfCentralDir = packed record
     EndOfCentralDirSignature: DWORD; //    4 bytes  (0x06054b50)
-    NumberOfThisDisk: WORD; //             2 bytes
-    NumberOfTheDiskWithTheStart: WORD; //  2 bytes
-    TotalNumberOfEntriesOnThisDisk: WORD; //    2 bytes
-    TotalNumberOfEntries: WORD; //            2 bytes
+    NumberOfThisDisk:     word;           //             2 bytes
+    NumberOfTheDiskWithTheStart: word;    //  2 bytes
+    TotalNumberOfEntriesOnThisDisk: word; //    2 bytes
+    TotalNumberOfEntries: word;           //            2 bytes
     SizeOfTheCentralDirectory: DWORD; //   4 bytes
     OffsetOfStartOfCentralDirectory: DWORD; // 4 bytes
-    ZipfileCommentLength: WORD; //          2 bytes
+    ZipfileCommentLength: word;           //          2 bytes
   end;
 
   TZipFile = class(TObject)
     Files: array of TLocalFile;
     CentralDirectory: array of TFileHeader;
     EndOfCentralDirectory: TEndOfCentralDir;
-    ZipFileComment: string;
+    ZipFileComment: ansistring;
   private
-    function GetUncompressed(i: integer): string;
-    procedure SetUncompressed(i: integer; const Value: string);
+    function GetUncompressed(i: integer): ansistring;
+    procedure SetUncompressed(i: integer; const Value: ansistring);
     function GetDateTime(i: integer): TDateTime;
     procedure SetDateTime(i: integer; const Value: TDateTime);
     function GetCount: integer;
-    function GetName(i: integer): string;
-    procedure SetName(i: integer; const Value: string);
+    function GetName(i: integer): ansistring;
+    procedure SetName(i: integer; const Value: ansistring);
   public
-    property Count: integer read GetCount;
-    procedure AddFile(const name: string; FAttribute: DWord = 0);
-    procedure SaveToFile(const filename: string);
+    property Count: integer Read GetCount;
+    procedure AddFile(const Name: ansistring; FAttribute: DWord = 0);
+    procedure SaveToFile(const filename: TFileName);
     procedure SaveToStream(ZipFileStream: TStream);
-    procedure LoadFromFile(const filename: string);
+    procedure LoadFromFile(const filename: TFileName);
     procedure LoadFromStream(const ZipFileStream: TStream);
-    property Uncompressed[i: integer]: string read GetUncompressed write
-    SetUncompressed;
-    property Data[i: integer]: string read GetUncompressed write
-    SetUncompressed;
-    property DateTime[i: integer]: TDateTime read GetDateTime write SetDateTime;
-    property Name[i: integer]: string read GetName write SetName;
+    property Uncompressed[i: integer]: ansistring
+      Read GetUncompressed Write SetUncompressed;
+    property Data[i: integer]: ansistring Read GetUncompressed Write SetUncompressed;
+    property DateTime[i: integer]: TDateTime Read GetDateTime Write SetDateTime;
+    property Name[i: integer]: ansistring Read GetName Write SetName;
   end;
 
   EZipFileCRCError = class(Exception);
 
-function ZipCRC32(const Data: string): longword;
+function ZipCRC32(const Data: ansistring): longword;
 
 implementation
 
 { TZipFile }
 
-procedure TZipFile.SaveToFile(const filename: string);
+procedure TZipFile.SaveToFile(const filename: TFileName);
 var
   ZipFileStream: TFileStream;
 begin
@@ -126,11 +125,11 @@ begin
         if (LocalFileHeaderSignature = ($04034B50)) then
         begin
           ZipFileStream.Write(CommonFileHeader, SizeOf(CommonFileHeader));
-          ZipFileStream.Write(PChar(filename)^,
+        ZipFileStream.Write(PAnsiChar(filename)^,
             CommonFileHeader.FilenameLength);
-          ZipFileStream.Write(PChar(extrafield)^,
+        ZipFileStream.Write(PAnsiChar(extrafield)^,
             CommonFileHeader.ExtraFieldLength);
-          ZipFileStream.Write(PChar(CompressedData)^,
+        ZipFileStream.Write(PAnsiChar(CompressedData)^,
             CommonFileHeader.CompressedSize);
         end;
       end;
@@ -149,9 +148,9 @@ begin
         ZipFileStream.Write(InternalFileAttributes, 2);
         ZipFileStream.Write(ExternalFileAttributes, 4);
         ZipFileStream.Write(RelativeOffsetOfLocalHeader, 4);
-        ZipFileStream.Write(PChar(filename)^, length(filename));
-        ZipFileStream.Write(PChar(extrafield)^, length(extrafield));
-        ZipFileStream.Write(PChar(fileComment)^, length(fileComment));
+      ZipFileStream.Write(PAnsiChar(filename)^, length(filename));
+      ZipFileStream.Write(PAnsiChar(extrafield)^, length(extrafield));
+      ZipFileStream.Write(PAnsiChar(fileComment)^, length(fileComment));
       end;
     with EndOfCentralDirectory do
     begin
@@ -165,7 +164,7 @@ begin
       ZipfileCommentLength := length(ZipFileComment);
     end;
     ZipFileStream.Write(EndOfCentralDirectory, SizeOf(EndOfCentralDirectory));
-    ZipFileStream.Write(PChar(ZipFileComment)^, length(ZipFileComment));
+  ZipFileStream.Write(PAnsiChar(ZipFileComment)^, length(ZipFileComment));
 end;
 
 
@@ -178,13 +177,14 @@ begin
   repeat
     signature := 0;
     ZipFileStream.Read(signature, 4);
-    if   (ZipFileStream.Position =  ZipFileStream.Size) then exit;
+    if (ZipFileStream.Position = ZipFileStream.Size) then
+      exit;
   until signature = $04034B50;
   repeat
     begin
       if (signature = $04034B50) then
       begin
-        inc(n);
+        Inc(n);
         SetLength(Files, n);
         SetLength(CentralDirectory, n);
         with Files[n - 1] do
@@ -192,13 +192,13 @@ begin
           LocalFileHeaderSignature := signature;
           ZipFileStream.Read(CommonFileHeader, SizeOf(CommonFileHeader));
           SetLength(filename, CommonFileHeader.FilenameLength);
-          ZipFileStream.Read(PChar(filename)^,
+          ZipFileStream.Read(PAnsiChar(filename)^,
             CommonFileHeader.FilenameLength);
           SetLength(extrafield, CommonFileHeader.ExtraFieldLength);
-          ZipFileStream.Read(PChar(extrafield)^,
+          ZipFileStream.Read(PAnsiChar(extrafield)^,
             CommonFileHeader.ExtraFieldLength);
           SetLength(CompressedData, CommonFileHeader.CompressedSize);
-          ZipFileStream.Read(PChar(CompressedData)^,
+          ZipFileStream.Read(PAnsiChar(CompressedData)^,
             CommonFileHeader.CompressedSize);
         end;
       end;
@@ -212,7 +212,7 @@ begin
     begin
       if (signature = $02014B50) then
       begin
-        inc(n);
+        Inc(n);
         with CentralDirectory[n - 1] do
         begin
           CentralFileHeaderSignature := signature;
@@ -224,13 +224,13 @@ begin
           ZipFileStream.Read(ExternalFileAttributes, 4);
           ZipFileStream.Read(RelativeOffsetOfLocalHeader, 4);
           SetLength(filename, CommonFileHeader.FilenameLength);
-          ZipFileStream.Read(PChar(filename)^,
+          ZipFileStream.Read(PAnsiChar(filename)^,
             CommonFileHeader.FilenameLength);
           SetLength(extrafield, CommonFileHeader.ExtraFieldLength);
-          ZipFileStream.Read(PChar(extrafield)^,
+          ZipFileStream.Read(PAnsiChar(extrafield)^,
             CommonFileHeader.ExtraFieldLength);
           SetLength(fileComment, FileCommentLength);
-          ZipFileStream.Read(PChar(fileComment)^, FileCommentLength);
+          ZipFileStream.Read(PAnsiChar(fileComment)^, FileCommentLength);
         end;
       end;
     end;
@@ -243,12 +243,12 @@ begin
     ZipFileStream.Read(EndOfCentralDirectory.NumberOfThisDisk,
       SizeOf(EndOfCentralDirectory) - 4);
     SetLength(ZipFileComment, EndOfCentralDirectory.ZipfileCommentLength);
-    ZipFileStream.Read(PChar(ZipFileComment)^,
+    ZipFileStream.Read(PAnsiChar(ZipFileComment)^,
       EndOfCentralDirectory.ZipfileCommentLength);
   end;
 end;
 
-procedure TZipFile.LoadFromFile(const filename: string);
+procedure TZipFile.LoadFromFile(const filename: TFileName);
 var
   ZipFileStream: TFileStream;
 begin
@@ -260,11 +260,24 @@ begin
   end;
 end;
 
-function TZipFile.GetUncompressed(i: integer): string;
+{$IFDEF UNICODE}
+  type TDataStream = TBytesStream;
+  type TData = TBytes;
+{$ELSE}
+
+type
+  TDataStream = TStringStream;
+
+type
+  TData = ansistring;
+
+{$ENDIF}
+
+function TZipFile.GetUncompressed(i: integer): ansistring;
 var
   Decompressor: TDecompressionStream;
-  UncompressedStream: TStringStream;
-  Aheader: string;
+  UncompressedStream: TDataStream;
+  Aheader:      ansistring;
   ReadBytes: integer;
   LoadedCrc32: DWORD;
 begin
@@ -274,14 +287,14 @@ begin
     //    exit;
     //  end;
     raise Exception.Create('Index out of range.');
-  Aheader := chr(120) + chr(156);
+  Aheader := #120 + #156;
   //manufacture a 2 byte header for zlib; 4 byte footer is not required.
-  UncompressedStream := TStringStream.Create(Aheader + Files[i].CompressedData);
+  UncompressedStream := TDataStream.Create(TData(Aheader + Files[i].CompressedData));
   try {+}
     Decompressor := TDecompressionStream.Create(UncompressedStream);
     try {+}
       SetLength(Result, Files[i].CommonFileHeader.UncompressedSize);
-      ReadBytes := Decompressor.Read(PChar(Result)^,
+      ReadBytes := Decompressor.Read(PAnsiChar(Result)^,
         Files[i].CommonFileHeader.UncompressedSize);
       if ReadBytes <> integer(Files[i].CommonFileHeader.UncompressedSize) then
         Result := '';
@@ -298,24 +311,38 @@ begin
     raise EZipFileCRCError.CreateFmt('CRC Error in "%s".', [Files[i].filename]);
 end;
 
-procedure TZipFile.SetUncompressed(i: integer; const Value: string);
+procedure TZipFile.SetUncompressed(i: integer; const Value: ansistring);
 var
   Compressor: TCompressionStream;
-  CompressedStream: TStringStream;
+  CompressedStream: TDataStream;
+  {$IFDEF UNICODE}
+  ii: integer;
+  {$ENDIF}
 begin
   if i > High(Files) then // exit;
     raise Exception.Create('Index out of range.');
-  compressedStream := TStringStream.Create('');
+  {$IFDEF UNICODE}
+  compressedStream := TDataStream.Create();
+  {$ELSE}
+  compressedStream := TDataStream.Create(TData(''));
+  {$ENDIF}
   try {+}
     compressor := TcompressionStream.Create(clDefault, CompressedStream);
     try {+}
-      compressor.Write(PChar(Value)^, length(Value));
+      compressor.Write(PAnsiChar(Value)^, length(Value));
     finally
       compressor.Free;
     end;
-    Files[i].CompressedData := Copy(compressedStream.DataString, 3,
-      length(compressedStream.DataString) - 6);
+  {$IFDEF UNICODE}
+    Files[i].CompressedData :='';
     //strip the 2 byte headers and 4 byte footers
+    for ii := 2 to compressedStream.Size - 5 do
+      Files[i].CompressedData:=Files[i].CompressedData+AnsiChar(compressedStream.Bytes[ii]);
+  {$ELSE}
+    //strip the 2 byte headers and 4 byte footers
+    Files[i].CompressedData :=
+      Copy(compressedStream.DataString, 3, length(compressedStream.DataString) - 6);
+  {$ENDIF}
     Files[i].LocalFileHeaderSignature := ($04034B50);
     with Files[i].CommonFileHeader do
     begin
@@ -349,12 +376,12 @@ begin
   end;
 end;
 
-procedure TZipFile.AddFile(const name: string; FAttribute: DWord = 0);
+procedure TZipFile.AddFile(const Name: ansistring; FAttribute: DWord = 0);
 
 begin
   SetLength(Files, High(Files) + 2);
   SetLength(CentralDirectory, length(Files));
-  Files[High(Files)].filename := name;
+  Files[High(Files)].filename   := Name;
   Files[High(Files)].CompressedData := ''; //start with an empty file
   Files[High(Files)].extrafield := '';
   Files[High(Files)].LocalFileHeaderSignature := $04034B50;
@@ -391,7 +418,7 @@ function TZipFile.GetDateTime(i: integer): TDateTime;
 begin
   if i > High(Files) then // begin Result:=0; exit; end;
     raise Exception.Create('Index out of range.');
-  result := FileDateToDateTime(Files[i].CommonFileHeader.LastModFileTimeDate);
+  Result := FileDateToDateTime(Files[i].CommonFileHeader.LastModFileTimeDate);
 end;
 
 procedure TZipFile.SetDateTime(i: integer; const Value: TDateTime);
@@ -406,21 +433,21 @@ begin
   Result := High(Files) + 1;
 end;
 
-function TZipFile.GetName(i: integer): string;
+function TZipFile.GetName(i: integer): ansistring;
 begin
   Result := Files[i].filename;
 end;
 
-procedure TZipFile.SetName(i: integer; const Value: string);
+procedure TZipFile.SetName(i: integer; const Value: ansistring);
 begin
   Files[i].filename := Value;
 end;
 
 { ZipCRC32 }
 
-//calculates the zipfile CRC32 value from a string
+//calculates the zipfile CRC32 value from a AnsiString
 
-function ZipCRC32(const Data: string): longword;
+function ZipCRC32(const Data: ansistring): longword;
 const
   CRCtable: array[0..255] of DWORD = (
     $00000000, $77073096, $EE0E612C, $990951BA, $076DC419, $706AF48F, $E963A535,
@@ -477,10 +504,11 @@ const
 var
   i: integer;
 begin
-  result := $FFFFFFFF;
+  Result := $FFFFFFFF;
   for i := 0 to length(Data) - 1 do
-    result := (result shr 8) xor (CRCtable[byte(result) xor Ord(Data[i + 1])]);
-  result := result xor $FFFFFFFF;
+    Result := (Result shr 8) xor (CRCtable[byte(Result) xor Ord(Data[i + 1])]);
+  Result := Result xor $FFFFFFFF;
 end;
+
 end.
 

@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, shellapi, ExtCtrls, rsfileversion,frmdefaultunit, ActnList;
+  StdCtrls, shellapi, ExtCtrls, rsfileversion, frmdefaultunit, ActnList,
+  Xml.xmldom, Xml.XMLIntf, Xml.XMLDoc;
 
 type
   TfrmAbout = class(TForm)
@@ -16,6 +17,7 @@ type
     Memo1: TMemo;
     Label5: TLabel;
     Label6: TLabel;
+    XMLDocument1: TXMLDocument;
     procedure Button1Click(Sender: TObject);
     procedure Label4Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -29,7 +31,9 @@ type
   end;
 
 implementation
+
 uses petzclassesunit, dllpatchunit, bndpetz, petzcommon1;
+
 {$R *.DFM}
 
 procedure TfrmAbout.Button1Click(Sender: TObject);
@@ -39,7 +43,7 @@ end;
 
 procedure TfrmAbout.Label4Click(Sender: TObject);
 begin
-  ShellExecute(handle, 'open', 'mailto:nick@sherlocksoftware.org', nil, nil, sw_shownormal);
+  ShellExecute(handle, 'open', 'mailto:n.sherlock@gmail.com', nil, nil, sw_shownormal);
 end;
 
 procedure TfrmAbout.Button2Click(Sender: TObject);

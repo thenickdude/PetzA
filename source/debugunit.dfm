@@ -1,9 +1,9 @@
 object frmDebug: TfrmDebug
   Left = 873
   Top = 451
-  Width = 398
-  Height = 488
   Caption = 'Debugging'
+  ClientHeight = 449
+  ClientWidth = 382
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,9 +19,11 @@ object frmDebug: TfrmDebug
   object Memo1: TMemo
     Left = 0
     Top = 0
-    Width = 390
-    Height = 461
+    Width = 382
+    Height = 449
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 390
+    ExplicitHeight = 461
   end
 end

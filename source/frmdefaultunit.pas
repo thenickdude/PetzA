@@ -3,7 +3,7 @@ unit frmdefaultunit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs;
+  Vcl.Forms;
 
 type
   TfrmDefault = class(TForm)

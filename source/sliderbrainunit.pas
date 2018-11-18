@@ -63,7 +63,7 @@ end;
 
 procedure TfrmSliderBrain.Edit1KeyPress(Sender: TObject; var Key: Char);
 begin
-  if not (key in ['0'..'9', #9]) then key := #0;
+  if not CharInSet(key, ['0'..'9', #9]) then key := #0;
 end;
 
 procedure tfrmsliderbrain.scrollonchange(sender: tobject);

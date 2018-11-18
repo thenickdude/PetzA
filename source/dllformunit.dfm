@@ -1,10 +1,10 @@
 object frmDLLMain: TfrmDLLMain
   Left = 584
   Top = 359
-  Width = 276
-  Height = 348
   BorderIcons = [biMinimize, biMaximize]
   Caption = 'Petz 5a'
+  ClientHeight = 309
+  ClientWidth = 260
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

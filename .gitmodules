@@ -1,0 +1,15 @@
+[submodule "lib/DelphiEncryptionCompendium"]
+	path = lib/DelphiEncryptionCompendium
+	url = https://github.com/winkelsdorf/DelphiEncryptionCompendium.git
+[submodule "lib/petz-common"]
+	path = lib/petz-common
+	url = https://github.com/thenickdude/petz-common.git
+[submodule "lib/graphics32"]
+	path = lib/graphics32
+	url = https://github.com/graphics32/graphics32.git
+[submodule "lib/sherlocksoftware"]
+	path = lib/sherlocksoftware
+	url = https://github.com/thenickdude/ss-delphi-components.git
+[submodule "lib/stubby"]
+	path = lib/stubby
+	url = https://github.com/thenickdude/stubby.git

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, GR32_Image, gr32, framediconunit;
+  StdCtrls, GR32_Image, gr32, FramedIcons;
 
 type
   TfrmProfileEdit = class(TForm)
@@ -51,7 +51,7 @@ begin
   if icon.Empty then begin
     imgIcon.Bitmap.Textout(4, 4, '(none)');
   end else begin
-    drawframedicon(icon, imgIcon.bitmap, 0, 0, true, 50, 2);
+    DrawFramedIcon(icon, imgIcon.bitmap, 0, 0, true, 50, 2);
   end;
 
   imgicon.refresh;

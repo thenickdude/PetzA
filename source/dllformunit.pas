@@ -3,8 +3,8 @@ unit dllformunit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, Menus, contnrs,mymenuunit;
+  Windows, Messages, SysUtils, Classes, Vcl.Forms,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Menus, contnrs, mymenuunit, Vcl.Controls;
 
 type
   TfrmDLLMain = class(TForm)

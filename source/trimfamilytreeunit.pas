@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, jpeg, ExtCtrls, contnrs,helpunit;
+  StdCtrls, Vcl.Imaging.jpeg, ExtCtrls, contnrs, helpunit;
 
 type
   TfrmTrimFamilyTree = class(TForm)

@@ -1,4 +1,7 @@
-library petza;
+library PetzA;
+
+{$WARN SYMBOL_PLATFORM OFF}
+{$WARN UNIT_PLATFORM OFF}
 
 uses
   madExcept,
@@ -6,22 +9,20 @@ uses
   madListHardware,
   madListProcesses,
   madListModules,
-  SysUtils,
-  petzaunit in 'petzaunit.pas',
-  bndpetz in 'bndpetz.pas',
-  Classes,
-  madkernel,
-  dialogs,
-  controls,
-  forms,
+  System.SysUtils,
   windows,
-  contnrs,
-  messages,
-  HCMngr,
-  decutil,
+  forms,
   clipbrd,
-  registry,
+  dialogs,
+  System.win.registry,
+  Classes,
+  contnrs,
   typinfo,
+  DECHash,
+  DECFormat,
+  madKernel,
+  petzaunit in 'petzaunit.pas',
+  bndpetz,
   dllpatchunit in 'dllpatchunit.pas',
   petzclassesunit in 'petzclassesunit.pas',
   aboutunit in 'aboutunit.pas' {frmAbout},
@@ -37,37 +38,41 @@ uses
   nomatchunit in 'nomatchunit.pas' {frmNoMatch},
   profilemanagerunit in 'profilemanagerunit.pas' {frmProfileManager},
   pickprofileunit in 'pickprofileunit.pas' {frmPickProfile},
-  petzprofilesunit in 'petzprofilesunit.pas',
   profileeditunit in 'profileeditunit.pas' {frmProfileEdit},
   frmpickiconunit in 'frmpickiconunit.pas' {frmPickIcon},
-  framediconunit in 'framediconunit.pas',
+  FramedIcons in 'FramedIcons.pas',
   frmsettingsunit in 'frmsettingsunit.pas' {frmSettings},
   nakedbitmaploader in 'nakedbitmaploader.pas',
-  vectorUnit in 'vectorUnit.pas';
+  vectorUnit in 'vectorUnit.pas',
+  profilelistdisplay in 'profilelistdisplay.pas',
+  petzprofilesunit in 'petzprofilesunit.pas';
 
 {$E toy}
 {$R *.RES}
 
-type tfileidrecord = record
+type
+  tfileidrecord = record
     date: tdatetime;
     size: integer;
   end;
+
   thashrecord = record
     matches: boolean;
     hash: string;
   end;
 
 function checkhash: thashrecord;
-var hash: THashManager;
+var
+  hash: THash_MD5;
   t1: integer;
   s: string;
 begin
   result.matches := false;
-  hash := THashManager.Create(nil);
+  hash := THash_MD5.Create();
   try
-    hash.Algorithm := 'Message Digest 5';
+    hash.Init();
     hash.CalcFile(application.exename);
-    s := hash.DigestString[fmthex];
+    s := hash.DigestAsString(TFormat_HEX);
     Clipboard.AsText := s;
     result.hash := s;
     for t1 := 0 to high(petzhashes) do
@@ -155,14 +160,15 @@ begin
   result := false;
   p := processes;
   for t1 := 0 to p.ItemCount - 1 do
-    if AnsiCompareText(ExtractFileName(p[t1].ExeFile), ChangeFileExt(extractfilename(application.exename), '.scr')) = 0 then begin
-      name := p[t1].ExeFile;
+    if CompareText(ExtractFileName(String(p[t1].ExeFile)), ChangeFileExt(extractfilename(application.exename), '.scr')) = 0 then begin
+      name := string(p[t1].ExeFile);
       result := True;
       exit;
     end;
 end;
 
-var name: string;
+var
+  name: string;
   temp: string;
   reg: tregistry;
   pre: string;
@@ -259,4 +265,5 @@ begin
     HandleException;
   end;
 end.
+
 

@@ -40,6 +40,7 @@ const menustartid = 40300;
 var menumanager: tmenumanager;
 
 implementation
+
 uses bndpetz;
 
 procedure tmenumanager.updateitemcount;

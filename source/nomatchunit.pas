@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, GIFImage, ExtCtrls,shellapi, GIFImg;
+  StdCtrls, Vcl.Imaging.gifimg, ExtCtrls, shellapi;
 
 type
   TfrmNoMatch = class(TForm)
@@ -44,7 +44,7 @@ end;
 
 procedure TfrmNoMatch.Label1Click(Sender: TObject);
 begin
-shellexecute(handle,'open','mailto:nick@sherlocksoftware.org',nil,nil,sw_shownormal);
+shellexecute(handle,'open','mailto:n.sherlock@gmail.com',nil,nil,sw_shownormal);
 end;
 
 procedure TfrmNoMatch.FormClose(Sender: TObject; var Action: TCloseAction);

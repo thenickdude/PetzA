@@ -1,7 +1,9 @@
 unit petzcommon1;
 
 interface
+
 uses sysutils, messages, windows, dialogs;
+
 type enotimplemented = class(exception)
   public
     constructor create; reintroduce;

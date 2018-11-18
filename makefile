@@ -1,25 +1,31 @@
-madcollection = D:\Program Files\MadCollection
+# Note that this is a Borland-format makefile, build me through the "RAD Studio Command Prompt"
 
-radprojects = D:\Documents and Settings\Nicholas Sherlock\My Documents\RAD Studio\Projects
+HELPNDOC_PATH = C:\Program Files (x86)\IBE Software\HelpNDoc 6\hnd6.exe
+MADCOLLECTION_PATH = C:\Program Files (x86)\madCollection
+INNOSETUP_PATH = C:\Program Files (x86)\Inno Setup 5\ISCC.exe
 
-delphi5projects = C:\Program Files\Borland\Delphi5\Projects
+all : petzasetup.exe
 
-delphi5paths = $(delphi5projects)\stubby;$(delphi5projects)\cipher\Dec\Source;$(delphi5projects)\dimime\Source;$(delphi5projects)\versioninfo;$(delphi5projects)\sherlocksoftware
+build\PetzA.toy : source\petzaunit.pas source\PetzA.dpr source\PetzA.dproj
+	-@mkdir build
+	msbuild /target:Build /p:config=Release source\PetzA.dproj
+	"$(MADCOLLECTION_PATH)\madExcept\Tools\madExceptPatch.exe" build\PetzA.toy source\PetzA.mes
 
-sourcepath = $(delphi5paths);$(madcollection)\madExcept\dexter;$(madcollection)\madBasic\dexter;$(madcollection)\madDisAsm\dexter;$(madcollection)\madKernel\dexter;$(radprojects)\graphics32;$(radprojects)\g32interface;$(radprojects)\gif;$(radprojects)\pngobject;$(radprojects)\XML Parser
+# http://www.jrsoftware.org/isdl.php - Use the Unicode version
+petzasetup.exe : petzasetup.iss build\PetzAHelp.chm build\PetzA.toy build\verify.dll proficons\*
+	"$(INNOSETUP_PATH)" petzasetup.iss /q
 
-build : petzasetup.iss build/PetzAHelp.chm build/PetzA.toy build/verify.dll proficons/*
-	ISCC petzasetup.iss /q
+# https://www.helpndoc.com/download/
+build\PetzAHelp.chm : helpndoc\PetzAHelp.hnd
+	-mkdir build
+	cd helpndoc
+	echo "HelpNDoc's command line compiler appears to be broken in v5 and v6, please build it using their GUI instead"
+	"$(HELPNDOC_PATH)" petzahelp.hnd build -only="Build CHM documentation"
 
-build/PetzAHelp.chm : helpndoc/PetzAHelp.hnd
-	helpndoc "$(realpath helpndoc\PetzAHelp.hnd)" /c /sxc /oxc="$@"
-
-build/verify.dll : source/Verify.dpr
-	cd source && dcc32 -Q -E../build -B Verify.dpr
-
-build/PetzA.toy : source/petzaunit.pas source/petza.dpr source/petza.dproj
-	cd source && dcc32 -Q -E../build -B -U"$(sourcepath)" -I"$(sourcepath)" PetzA.dpr
-	/cygdrive/d/Program\ Files/madCollection/madExcept/Tools/madExceptPatch.exe build/petza.toy source/petza.mes
+# DLL used during the install process for identifying installed Petz versions
+build\verify.dll : source\Verify.dpr
+	-@mkdir build
+	msbuild /target:Build /p:config=Release source\Verify.dproj
 
 clean :
-	rm build/*
+	-del build\*

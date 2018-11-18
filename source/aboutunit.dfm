@@ -27,9 +27,9 @@ object frmAbout: TfrmAbout
   object Label2: TLabel
     Left = 8
     Top = 56
-    Width = 214
+    Width = 246
     Height = 13
-    Caption = 'Copyright (C) Sherlock Software 2006'
+    Caption = 'Copyright (C) Sherlock Software 2006-2018'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -47,10 +47,10 @@ object frmAbout: TfrmAbout
   object Label4: TLabel
     Left = 104
     Top = 24
-    Width = 129
+    Width = 107
     Height = 13
     Cursor = crHandPoint
-    Caption = 'nick@sherlocksoftware.org'
+    Caption = 'n.sherlock@gmail.com'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlue
     Font.Height = -11
@@ -93,8 +93,8 @@ object frmAbout: TfrmAbout
     OnClick = Button1Click
   end
   object Memo1: TMemo
-    Left = 160
-    Top = 32
+    Left = 248
+    Top = 17
     Width = 89
     Height = 33
     Lines.Strings = (
@@ -106,5 +106,9 @@ object frmAbout: TfrmAbout
     ScrollBars = ssVertical
     TabOrder = 1
     Visible = False
+  end
+  object XMLDocument1: TXMLDocument
+    Left = 136
+    Top = 32
   end
 end
