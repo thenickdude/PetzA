@@ -21,6 +21,7 @@ bugs in the game. PetzA appears as a new menu item at the top of your Petz or Ba
 
 ## Supported versions
 <img src="screenshots/petzagroup.png" align="right">
+
 - Petz 2 (English, the demo .exe)
 - Petz 3 (English)
 - Petz 3 (German)
